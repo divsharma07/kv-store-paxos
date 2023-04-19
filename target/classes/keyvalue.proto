@@ -1,0 +1,41 @@
+syntax = "proto3";
+package kvGrpc;
+option java_package = "kvGrpc";
+
+// key-value service definition
+service KeyValue {
+  rpc Put (PutRequest) returns (PutResponse) {}
+  rpc Get (GetRequest) returns (GetResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+}
+
+message PutRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message PutResponse {
+  string responseMessage = 1;
+  string responseCode = 2;
+}
+
+message DeleteRequest {
+  string key = 1;
+}
+
+message DeleteResponse {
+  string responseMessage = 1;
+  string responseCode = 2;
+}
+
+// GetRequest contains a key to retrieve
+message GetRequest {
+  string key = 1;
+}
+
+// GetReply contains the value
+message GetResponse {
+  string value = 1;
+  string responseMessage = 2;
+  string responseCode = 3;
+}

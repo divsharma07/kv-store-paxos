@@ -1,0 +1,59 @@
+syntax = "proto3";
+package paxos;
+option java_package = "paxos";
+
+service Paxos {
+  rpc Promise(PromiseRequest) returns (PromiseResponse) {}
+  rpc Accept(AcceptRequest) returns (AcceptResponse) {}
+  rpc Learn(LearnRequest) returns (LearnResponse) {}
+}
+
+message PromiseRequest {
+  int32 proposal_id = 1;
+  KeyValueOperation key_value_operation = 2;
+}
+
+enum RequestType
+{
+  PUT = 0;
+  DELETE = 1;
+  GET = 2;
+}
+
+enum Status {
+  REJECTED = 0;
+  PROMISED = 1;
+  ACCEPTED = 2;
+}
+
+message KeyValueOperation {
+  RequestType request_type = 1;
+  string key = 2;
+  string value = 3;
+}
+
+message PromiseResponse {
+  Status status = 1;
+  int32 proposal_id = 2;
+  KeyValueOperation key_value_operation = 3;
+}
+
+message AcceptRequest {
+  int32 proposal_id = 1;
+  KeyValueOperation key_value_operation = 2;
+}
+
+message AcceptResponse {
+  bool success = 1;
+}
+
+message LearnRequest {
+  int32 proposal_id = 1;
+  KeyValueOperation key_value_operation = 2;
+}
+
+message LearnResponse {
+  bool success = 1;
+  string message = 2;
+  string response_code = 3;
+}
